@@ -1,7 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,9 +10,10 @@ public class PlayerController : MonoBehaviour
 
     public float interactDistance;
     public TMPro.TextMeshProUGUI interactionText;
-    public GameObject footSteps, footStepsSprint,playerObj;
+    public GameObject footSteps, footStepsSprint, playerObj;
     public AudioSource jumpScareSFX;
     public bool isDead = false;
+    public Booleans booleans;
 
     FirstPersonController fpsController;
 
@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         jumpScareSFX.Play();
         StopFootStepsSprint();
         StopFootSteps();
+        booleans.ResetGame();
         playerObj.SetActive(false);
     }
 }

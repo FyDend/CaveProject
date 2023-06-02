@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Booleans : MonoBehaviour
 {
@@ -13,8 +14,10 @@ public class Booleans : MonoBehaviour
     public int explosives;
 
     public TMPro.TextMeshProUGUI _taskText;
+    public ObjectIndicatorScript objectIndicator;
+    public AudioSource taskSFX;
 
-    string firstTask="Find the walkie talkie";
+    string firstTask="Pick the walkie talkie";
 
     private void Start()
     {
@@ -27,16 +30,27 @@ public class Booleans : MonoBehaviour
             canDestroyRock = true;
         else canDestroyRock= false;
     }
+    public void ResetGame()
+    {
+        StartCoroutine(ReloadScene());
+    }
     public void NextTask(string nextTask)
     {
+        objectIndicator.NextPosition();
         StopAllCoroutines();
         StartCoroutine(Task(nextTask));
     }
     IEnumerator Task(string taskText)
-    {
+    { 
         yield return new WaitForSeconds(1.5f);
+        taskSFX.Play();
         _taskText.text = taskText;
         yield return new WaitForSeconds(3);
         _taskText.text = "";
+    }
+    IEnumerator ReloadScene()
+    {
+        yield return new WaitForSeconds(5);
+        SceneManager.LoadScene("Cuevas");
     }
 }

@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ExplosivesScriptInteractable : Interactable
 {
     [SerializeField]
     Booleans booleans;
     public AudioSource audioSource;
+    public GameObject enemyPatrol, enemyChase;
 
     public override string GetDescription()
     {
@@ -26,6 +28,8 @@ public class ExplosivesScriptInteractable : Interactable
             booleans.explosives++;
             audioSource.Play();
             Destroy(gameObject);
+            enemyPatrol.SetActive(false);
+            enemyChase.SetActive(true);
         }
         else if (booleans.explosives == 1)
         {

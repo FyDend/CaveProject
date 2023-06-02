@@ -17,7 +17,7 @@ public class PatrolBehaviour : StateMachineBehaviour
         ghoul = GameObject.FindGameObjectWithTag("Enemy");
         player = GameObject.FindGameObjectWithTag("Player");
         patrolPosition = ghoul.GetComponent<GhoulManager>().patrolPosition;
-        currentPatrolPosition = Random.Range(0, patrolPosition.Count);
+        currentPatrolPosition = Random.Range(0, patrolPosition.Count-1);
         agent = ghoul.GetComponent<NavMeshAgent>();
         agent.SetDestination(patrolPosition[currentPatrolPosition].position);
         agent.speed = 1.5f;
@@ -27,10 +27,19 @@ public class PatrolBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector3.Distance(ghoul.transform.position, patrolPosition[currentPatrolPosition].position)<1)
+        PatrolMethod(animator);
+        if(agent.isStopped)
         {
-            currentPatrolPosition=Random.Range(0, patrolPosition.Count);
-            agent.destination = patrolPosition[currentPatrolPosition].position;
+            PatrolMethod(animator);
+        }
+    }
+
+    private void PatrolMethod(Animator animator)
+    {
+        if (Vector3.Distance(ghoul.transform.position, patrolPosition[currentPatrolPosition].position) < 1)
+        {
+            currentPatrolPosition = Random.Range(0, patrolPosition.Count);
+            agent.SetDestination(patrolPosition[currentPatrolPosition].position);
         }
         if (Vector3.Distance(ghoul.transform.position, player.transform.position) < 15)
         {

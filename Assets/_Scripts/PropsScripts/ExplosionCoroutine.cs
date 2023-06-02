@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExplosionCoroutine : MonoBehaviour
 {
-    public GameObject explosive, explosiveParticles, rockDoor;
+    public GameObject explosive, explosiveParticles, rockDoor, enemyPatrol, enemyChase;
     public AudioSource audioSource;
     public void CallExplosion()
     {
@@ -21,5 +21,7 @@ public class ExplosionCoroutine : MonoBehaviour
         Destroy(rockDoor);
         yield return new WaitForSeconds(1.5f);
         explosiveParticles.SetActive(false);
+        enemyPatrol.SetActive(true);
+        enemyChase.SetActive(false);
     }
 }
